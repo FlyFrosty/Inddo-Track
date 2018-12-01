@@ -1,0 +1,25 @@
+{
+  "fitbit": {
+    "appUUID": "225607a8-b697-41ee-84f7-aebfe5355cab",
+    "appType": "app",
+    "appDisplayName": "Indoor Track",
+    "iconFile": "resources/icon.png",
+    "wipeColor": "#00bcd4",
+    "requestedPermissions": [
+      "access_activity",
+      "run_background"
+    ],
+    "buildTargets": [
+      "higgs",
+      "meson"
+    ],
+    "i18n": {
+      "en": {
+        "name": "Indoor Track"
+      }
+    }
+  },
+  "devDependencies": {
+    "@fitbit/sdk": "~2.0.0"
+  }
+}

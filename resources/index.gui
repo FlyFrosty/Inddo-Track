@@ -1,0 +1,38 @@
+<svg class="background">
+  <image id="imageBackground" />
+
+<svg id="mainView" display = "inline">
+  <svg id="myLaps" fill = "white" display = "inline">
+    <text id="lapCount" fill="inherit" pointer-events="visible" display = "inherit"/>
+    <text id="lapTime" fill="inherit" pointer-events="visible" display = "inherit"/>
+  </svg>
+  <svg>
+    <text id = "lastLapText" fill = "white" display = "inline"/>
+    <text id ="subLap1" fill = "white" display = "inline"/>
+    <text id = "prevLapText" fill = "white" display = "inline"/>
+    <text id ="subLap2" fill = "white" display = "inline"/>
+  </svg>
+  <svg>
+     <!-- TOP RIGHT -->
+    <use id="btn-tr" href="#combo-button-upper-right" fill="fb-green">
+      <set href="combo-button-icon" attributeName="href" to="btn_combo_flag_p.png"/>
+      <set href="combo-button-icon-press" attributeName="href" to="btn_combo_play_p.png"/>
+      <set href="combo-button-stroke" attributeName="display" to="inline"/>
+    </use>
+    <!-- BOTTOM RIGHT -->
+    <use id="btn-br" href="#combo-button-lower-right" fill="fb-green">
+      <set href="combo-button-icon" attributeName="href" to="btn_combo_lap_p.png"/>
+      <set href="combo-button-icon-press" attributeName="href" to="btn_combo_play_p.png"/>
+      <set href="combo-button-stroke" attributeName="display" to="inline"/>
+    </use>
+  </svg>
+</svg>
+  
+<svg id="summary" fill = "white" display = "none">
+  <text id = "totLaps" fill = "inherit" display = "inherit"/>
+  <text id = "totTime" fill = "inherit" display = "inherit"/>
+  <text id = "lapMrkr" fill = "inherit" display = "inherit"/>
+  <text id = "timeMrkr" fill = "inherit" display = "inherit"/>
+  </svg>
+  
+</svg>

@@ -1,0 +1,110 @@
+.background {
+  viewport-fill: #444444;
+}
+
+#myLaps {
+  fill: white;
+}
+
+#myLapTime {
+  fill: white;
+}
+
+#lapCount {
+  font-size: 110;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: end;
+  x: 76%;
+  y: 50%;
+  fill: white;
+}
+
+#lapTime {
+  font-size: 90;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: middle;
+  x: 40%+5;
+  y: 79%;
+  fill: white;  
+}
+
+#lastLapText {
+  font-size: 24;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: start;
+  x: 1%;
+  y: 10%;
+  fill: white;      
+}
+
+#subLap1 {
+  font-size: 48;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: start;
+  x: 1%;
+  y: 25%;
+  fill: white;    
+}
+
+#prevLapText {
+  font-size: 24;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: start;
+  x: 1%;
+  y: 34%;
+  fill: white;      
+}
+
+#subLap2 {
+  font-size: 48;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: start;
+  x: 1%;
+  y: 47%;
+  fill: white;    
+}
+
+#totLaps {
+  font-size: 120;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: middle;
+  x: 50%;
+  y: 40%+10;
+  fill: white;
+}
+
+#totTime {
+  font-size: 100;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: middle;
+  x: 50%;
+  y: 90%;
+  fill: white;
+}
+
+#lapMrkr {
+  font-size: 36;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: start;
+  x: 5;
+  y: 10%+5;
+  fill: white;
+}
+#timeMrkr {
+  font-size: 36;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: start;
+  x: 5;
+  y: 60%+10;
+  fill: white;
+}
