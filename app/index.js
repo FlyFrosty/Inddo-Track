@@ -2,213 +2,238 @@ import document from "document";
 import clock from "clock";
 
 import { today } from 'user-activity';
-
 import { me } from "appbit";
 import { display } from "display";
 
 let mainView = document.getElementById("mainView");
+
+//Big numbers while running
 let myLaps = document.getElementById("myLaps");
 let lapTime = document.getElementById("lapTime");
 let lapCount = document.getElementById("lapCount");
 
-let subLap1 = document.getElementById("subLap1");
-let subLap2 = document.getElementById("subLap2");
+//small top right info
+let topLap = document.getElementById("topLap");
+let botLap = document.getElementById("botLap");
 let lastLapText = document.getElementById("lastLapText");
-let prevLapText = document.getElementById("prevLapText");
+let currLapText = document.getElementById("currLapText");
 
 let btnBr = document.getElementById("btn-br");
 let btnTr = document.getElementById("btn-tr");
 
+//End of run screen
 let summary = document.getElementById("summary");
+let summaryView = document.getElementById("summaryView");
 let totLaps = document.getElementById("totLaps");
+let totTimeShaddow = document.getElementById("totTimeShaddow");
+let totLapsShaddow = document.getElementById("totLapsShaddow");
 let totTime = document.getElementById("totTime");
 let timeMrkr = document.getElementById("timeMrkr");
 let lapMrkr = document.getElementById("lapMrkr");
+let lapMrkrShaddow = document.getElementById("lapMrkrShaddow");
+let timeMrkrShaddow = document.getElementById("timeMrkrShaddow");
 
-let mins = 0;
-let seconds = 0;
+let VTList = document.getElementById("list");
+
 let interval;
-let running = 0;
+let running = "Start";
 let lapCounter = 0;
-let myDiffSec2;
-let myDiffMin2;
-let myLapDif;
 
-let endTime = 0; 
-let myPause = 0;
+let pauseStart = 0;
+let pauseEnd = 0;
+let pauseLapSum = 0;  //Total pause time per lap
+let pauseTot = 0;  //Total pause time per run
 
 var history = new Array();
+let actLapTime = new Array();
 
 lapCount.text = "0";
 lapTime.text = "00:00";
-subLap1.text = "0:00";
-subLap2.text = "0:00";
-lastLapText.text = "Recent";
-prevLapText.text = "Curr";
+topLap.text = "00:00";
+botLap.text = "00:00";
+lastLapText.text = "Curr";
+currLapText.text = "Prev";
 
+me.appTimeoutEnabled = false;
 
-function goStopBtn() {
-  seconds++;
-  if (seconds < 10) {
-    seconds = "0" + seconds;
-  }
-  if (seconds > 59) {
-    seconds = seconds - 60;
-    if (seconds < 9) {
-      seconds = "0" + seconds;
+//Function that returns a configure "00:00"
+function minSec(numTime) {
+  let totDifSec = 0;
+  let totDifMin = 0;  
+  let totDif = Math.round(numTime/1000);
+  if (totDif < 10) {
+    totDifSec = "0" + totDif;
+    totDifMin = "00";
+  } else if (totDif > 59) {
+    totDifMin = Math.floor(totDif / 60);
+    if (totDifMin < 10) {
+      totDifMin = "0" + totDifMin;
     }
-    mins++;
-  }
-  if (mins < 10) {
-    lapTime.text = `0` + mins + `:` + seconds; 
-  } else {
-    lapTime.text = mins + `:` + seconds;
-  }
-  
-  myLapDif = Date.now() - history[lapCounter];
-
-  myLapDif = Math.round(myLapDif/1000);
-  if (myLapDif < 10) {
-    myDiffSec2 = "0" + myLapDif;
-    myDiffMin2 = "0";
-  } else if (myLapDif > 59) {
-    myDiffMin2 = Math.floor(myLapDif / 60);
-    myDiffSec2 = myLapDif - (60 * myDiffMin2);
-    if (myDiffSec2 < 10) {
-      myDiffSec2 = "0" + myDiffSec2;
+    totDifSec = totDif - (60 * totDifMin);
+    if (totDifSec < 10) {
+      totDifSec = "0" + totDifSec;
     }
   } else {
-    myDiffMin2 = "0";
-    myDiffSec2 = myLapDif;
-  }
-  subLap2.text = myDiffMin2 + ":" + myDiffSec2;
+    totDifMin = "00";
+    totDifSec = totDif;
+  }    
+  return totDifMin + ":" + totDifSec;  
 };
-
-
-function lapBtn() {
-  let myDiffMin1;
-  let myDiffSec1;
-  
-  lapCounter = lapCounter + 1;
-  lapCount.text = lapCounter;
-  
-  //Sets the previous lap to time now to get accurate count
-  if (myPause === 1) {
-    history[lapCounter - 1] = Date.now();
-    history[lapCounter] = Date.now();
-  } else {
-    history[lapCounter] = Date.now();
-  };
-
-  myPause = 0;
-  
-  if (lapCounter === 1) {
-    subLap2.text = "0:00";
-  } else {
-    subLap2.text = subLap1.text;
-  }
-  
-  let myDiff1 = history[lapCounter] - history[lapCounter - 1];
-  
-  myDiff1 = Math.round(myDiff1/1000);
-  if (myDiff1 < 10) {
-    myDiffSec1 = "0" + myDiff1;
-    myDiffMin1 = "0";
-  } else if (myDiff1 > 59) {
-    myDiffMin1 = Math.floor(myDiff1 / 60);
-    myDiffSec1 = myDiff1 - (60 * myDiffMin1);
-    if (myDiffSec1 < 10) {
-      myDiffSec1 = "0" + myDiffSec1;
-    }
-  } else {
-    myDiffMin1 = "0";
-    myDiffSec1 = myDiff1;
-  }
-  subLap1.text = myDiffMin1 + ":" + myDiffSec1;
-};
-
+    
+ 
 //Resets the watch if stopped to new
 function finish() {
-  let myDiffSec1;
-  let myDiffMin1;
-  
- 
-  //Clear the screen
+      
+//Clear the screen
   mainView.style.display = "none";
+  summary.style.display = "inline";
   
   lapMrkr.text = "Laps";
-  timeMrkr.text = "Total Time";
+  timeMrkr.text = "Time";
+  lapMrkrShaddow.text = "Laps";
+  timeMrkrShaddow.text = "Time"; 
+
+  let myDiff1 = history[lapCounter] - history[0] - pauseTot;
+  console.log(`myDiff1 ${myDiff1}`);
   
-  let myDiff1 = endTime - history[0];
-  
-  myDiff1 = Math.round(myDiff1/1000);
-  if (myDiff1 < 10) {
-    myDiffSec1 = "0" + myDiff1;
-    myDiffMin1 = "0";
-  } else if (myDiff1 > 59) {
-    myDiffMin1 = Math.floor(myDiff1 / 60);
-    myDiffSec1 = myDiff1 - (60 * myDiffMin1);
-    if (myDiffSec1 < 10) {
-      myDiffSec1 = "0" + myDiffSec1;
-    }
-  } else {
-    myDiffMin1 = "0";
-    myDiffSec1 = myDiff1;
-  }
-  totTime.text = myDiffMin1 + ":" + myDiffSec1;
+  totTime.text = minSec(myDiff1);
+  totTimeShaddow.text = minSec(myDiff1);
   totLaps.text = lapCounter;
-  summary.style.display = "inline";  
+  totLapsShaddow.text = lapCounter; 
   
-  lapCounter = 0;
-  lapCount.text = "0";
-  mins = 0;
-  seconds = 0;
-  lapTime.text = "00:00";
-  running = 0;
-  subLap1.text = "0:00";
-  subLap2.text = "0:00";
-  btnTr.style.fill="green";
-  btnBr.style.fill="green";
-  myPause = 0;
-  me.appTimeoutEnabled = true;
- 
+  //Zero out time's of unused slots less than ten for the final screen  
+  if (lapCounter < 100) {
+    for(var i=lapCounter; i < 100; i++) {
+      actLapTime[i] = 0;
+    }
+  }  
+   
+  //Scroll Display
+  VTList.delegate =
+  {
+    getTileInfo: function(index)
+    {   
+      let myDiff3 = minSec(actLapTime[index]);
+      return {
+        type: "pool", 
+        value: `Lap ${index + 1}   ${myDiff3}`,
+        index: index };
+    },  
+    configureTile: function(tile, info)
+    {
+      tile.getElementById("text").text = info.value;
+    }
+  };
+
+  // VTList.length must be set AFTER VTList.delegate
+  VTList.length = 100; 
 }
 
-
-btnBr.onactivate = function(evt) {
-  if (running === 2) {
-    finish();
-  } else if (running === 1) {lapBtn()}; 
-}
-
+// Top Right button is pressed
 btnTr.onactivate = function(evt) {
-  if (running === 0) {
-    me.appTimeoutEnabled = false;
-    history[0] = Date.now();
-    console.log(`Base Time = ${history[0]}`);
-    running = 1;
+  //Check to see if the start time has been recorded
+  if (running === "Start") {
+    console.log("TR Start");
+    history[0] = Date.now();
+    actLapTime[0] = 0;
     btnTr.style.fill="yellow";
-    interval = setInterval(goStopBtn, 1000);
-  } else if (running === 1) {
+    running = "Started";
+    console.log("TR running changed to Started")
+  };
+   
+  //Check for different states and act on them
+  //This only works before a first pause
+  if (running === "Started") {
+    console.log("TR Started");
+    //Run the clocks with no pauses
+    interval = setInterval(function() {
+      //Display the main clock
+      lapTime.text = minSec(Date.now() - history[0]);      
+      //Show the lap time
+      topLap.text = minSec(Date.now() - history[lapCounter]);
+    }, 500);
+    running = "Running";
+    console.log("TR running changed to Running");
+  } else if (running === "Running") {
+    //Pauses the clock and record the time
     clearInterval(interval);
-    endTime = Date.now();
-    running = 2;
+    pauseStart = Date.now();
     btnTr.style.fill="green";
-    btnBr.style.fill="fb-red";
-  } else if (running === 2) {
-    clearInterval(interval);
-    myPause = 1;
-    running = 1;
+    btnBr.style.fill="red";    
+    running = "Paused";
+    console.log("TR running changed to Paused from Running");
+  } else if (running === "Paused") {
+    //End the pause, start the clock and record the differences
+    pauseEnd = Date.now();
+    pauseLapSum = pauseLapSum + (pauseEnd - pauseStart);
+    pauseEnd = 0;
+    pauseStart = 0;
+    pauseTot = pauseTot + pauseLapSum;
     btnTr.style.fill="yellow";
-    btnBr.style.fill="green";
-    interval = setInterval(goStopBtn, 1000);
-  }
-}
+    btnBr.style.fill="green";    
+    //Start the clock loops subtracting pause times
+    interval = setInterval(function() {
+      //Display the main clock
+      lapTime.text = minSec(Date.now() - history[0] - pauseTot);      
+      //Show the lap time
+      topLap.text = minSec(Date.now() - history[lapCounter] - pauseLapSum);
+    }, 500);  
+    running = "Running";
+    console.log("TR running changed to Running from Paused")
+  };
+};
 
+//Bottom Right Button is pressed
+btnBr.onactivate = function(evt) {
+  if (running !== "Start") {
+    console.log("BR not Start");
+    if (running === "Started") {
+      console.log("BR running is Started");
+      //advance the lap counter
+      lapCounter = lapCounter + 1;
+      lapCount.text = lapCounter;
+      //Store then shift the top lap down one
+      history[lapCounter] = Date.now();
+      actLapTime[lapCounter - 1] = history[lapCounter] - history[lapCounter - 1] - pauseLapSum;
+      console.log(`BR Started actLapTime ${actLapTime[lapCounter]}`);
+      console.log(`BR Started lap number ${lapCounter}`);  
+      botLap.text = minSec(actLapTime[lapCounter - 1]);
+      //Reset the top lap to 0
+      topLap.text = "00:00";
+      pauseLapSum = 0;
+    } else if (running === "Paused"){
+      //this ends the running
+      console.log("BR running is Paused");
+      clearInterval(interval);
+      finish();
+    } else if (running === "Running") {
+      console.log("BR running is else");
+      //Reset the lap pause time and start a new lap
+      //advance the lap counter
+      lapCounter = lapCounter + 1;
+      lapCount.text = lapCounter;
+      //Store then shift the top lap down one
+      history[lapCounter] = Date.now();
+      actLapTime[lapCounter - 1] = history[lapCounter] - history[lapCounter - 1] - pauseLapSum;
+      console.log(`BR else actLapTime ${actLapTime[lapCounter - 1]}`);
+      console.log(`BR else lap number ${lapCounter}`);  
+      botLap.text = minSec(actLapTime[lapCounter - 1]);
+      //Reset the top lap to 0
+      pauseLapSum = 0;
+      topLap.text = "00:00";      
+    };
+  } else {
+    console.log("Not yet started");
+  };
+};
+
+
+/*
 lapCount.onclick = function(e) {
-  if (running !==0) {lapBtn()};
+  if (running !=="Start") {console.log("lapCount touched")};
 }
 
 lapTime.onclick = function(e) {
-  if (running !==0) {lapBtn()};
+  if (running !=="Start") {btnBr()};
 }
+*/

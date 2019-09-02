@@ -40,7 +40,7 @@
   fill: white;      
 }
 
-#subLap1 {
+#topLap {
   font-size: 48;
   font-family: System-Bold;
   text-length: 32;
@@ -50,7 +50,7 @@
   fill: white;    
 }
 
-#prevLapText {
+#currLapText {
   font-size: 24;
   font-family: System-Bold;
   text-length: 32;
@@ -60,7 +60,7 @@
   fill: white;      
 }
 
-#subLap2 {
+#botLap {
   font-size: 48;
   font-family: System-Bold;
   text-length: 32;
@@ -90,8 +90,28 @@
   fill: white;
 }
 
+#totLapsShaddow {
+  font-size: 120;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: middle;
+  x: 50%+2;
+  y: 40%+2;
+  fill: white;
+}
+
+#totTimeShaddow {
+  font-size: 120;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: middle;
+  x: 50%+2;
+  y: 92%+2;
+  fill: white;
+}
+
 #lapMrkr {
-  font-size: 36;
+  font-size: 24;
   font-family: System-Bold;
   text-length: 32;
   text-anchor: start;
@@ -100,7 +120,7 @@
   fill: white;
 }
 #timeMrkr {
-  font-size: 36;
+  font-size: 24;
   font-family: System-Bold;
   text-length: 32;
   text-anchor: start;
@@ -108,4 +128,30 @@
   y: 50%+10;
   fill: white;
 }
+
+#lapMrkrShaddow {
+  font-size: 24;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: start;
+  x: 7;
+  y: 10%+7;
+  fill: white;
+}
+#timeMrkrShaddow {
+  font-size: 24;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: start;
+  x: 7;
+  y: 50%+12;
+  fill: white;
+}
+
+
+text { font-size: 32; font-family: System-Regular; font-weight: regular; text-length: 32; fill: white; }
+
+.tile-list-item { height: 55; }
+
+.tile-list-item text { height: 24; font-family: System-Regular; fill: white; x: 80; }
 
