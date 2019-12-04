@@ -27,43 +27,43 @@
   </svg> 
 
   <svg id ="summary" display = "none">
-  <svg id="summaryView" fill = "purple" display = "inherit" opacity = "1">
-    <text id = "totLapsShaddow" fill = "black" display = "inherit"/>
-    <text id = "totLaps" fill = "inherit" display = "inherit"/>
-    <text id = "totTimeShaddow" fill = "black" display = "inherit"/>  
-    <text id = "totTime" fill = "inherit" display = "inherit"/>
-    <text id = "lapMrkrShaddow" fill = "black" display = "inherit"/>
-    <text id = "lapMrkr" fill = "inherit" display = "inherit"/>
-    <text id = "timeMrkrShaddow" fill = "black" display = "inherit"/>
-    <text id = "timeMrkr" fill = "inherit" display = "inherit"/>
-  </svg>
+    <svg id="summaryView" fill = "purple" display = "inherit" opacity = "1">
+      <text id = "totLapsShaddow" fill = "black" display = "inherit"/>
+      <text id = "totLaps" fill = "inherit" display = "inherit"/>
+      <text id = "totTimeShaddow" fill = "black" display = "inherit"/>  
+      <text id = "totTime" fill = "inherit" display = "inherit"/>
+      <text id = "lapMrkrShaddow" fill = "black" display = "inherit"/>
+      <text id = "lapMrkr" fill = "inherit" display = "inherit"/>
+      <text id = "timeMrkrShaddow" fill = "black" display = "inherit"/>
+      <text id = "timeMrkr" fill = "inherit" display = "inherit"/>
+    </svg>
     
-  <defs>
-    <symbol id="my-tile-item" href="#tile-list-item" focusable="false" pointer-events="none" system-events="all" display="none">
-      <text id="text" />
-      <rect id="touch-me" pointer-events="all" x="0" y="0" width="00%" height="100%-2" />
-    </symbol>
-  </defs>
+    <defs>
+      <symbol id="my-tile-item" href="#tile-list-item" focusable="false" 
+              pointer-events="none" system-events="all" display="none">
+        <text id="text" />
+        <rect id="tile-divider-bottom" class="tile-divider-bottom" />
+      </symbol>
+    </defs>
   
-  <use id="list" href="#tile-list" opacity = "0.3">
-    <var id="reorder-enabled" value="0" />
-    <var id="peek-enabled" value="0" />
-    <var id="separator-height-bottom" value="2" />
-    <var id="virtual" value="1" />
+    <use id="my-list" href="#tile-list" opacity = "0.6">
+      <var id="virtual" value="1" />
+      <var id="reorder-enabled" value="0" />
+      <var id="peek-enabled" value="0" />
+      <var id="separator-height-bottom" value="2" />
   
-    <use id="pool" href="#tile-list-pool">
-      <use id="pool[0]" href="#my-tile-item" class="tile-list-item" />
-      <use id="pool[1]" href="#my-tile-item" class="tile-list-item" />
-      <use id="pool[2]" href="#my-tile-item" class="tile-list-item" />
-      <use id="pool[3]" href="#my-tile-item" class="tile-list-item" />
-      <use id="pool[4]" href="#my-tile-item" class="tile-list-item" />
-      <use id="pool[5]" href="#my-tile-item" class="tile-list-item" />
-      <use id="pool[6]" href="#my-tile-item" class="tile-list-item" />
-      <use id="pool[7]" href="#my-tile-item" class="tile-list-item" />
-      <use id="pool[8]" href="#my-tile-item" class="tile-list-item" />
-      <use id="pool[9]" href="#my-tile-item" class="tile-list-item" />
-      <use id="pool[10]" href="#my-tile-item" class="tile-list-item" />
+      <use id="my-pool" href="#tile-list-pool">
+        <use id="my-pool[0]" href="#my-tile-item" class="tile-list-item" />
+        <use id="my-pool[1]" href="#my-tile-item" class="tile-list-item" />
+        <use id="my-pool[2]" href="#my-tile-item" class="tile-list-item" />
+        <use id="my-pool[3]" href="#my-tile-item" class="tile-list-item" />
+        <use id="my-pool[4]" href="#my-tile-item" class="tile-list-item" />
+        <use id="my-pool[5]" href="#my-tile-item" class="tile-list-item" />
+        <use id="my-pool[6]" href="#my-tile-item" class="tile-list-item" />
+        <use id="my-pool[7]" href="#my-tile-item" class="tile-list-item" />
+        <use id="my-pool[8]" href="#my-tile-item" class="tile-list-item" />
+        <use id="my-pool[9]" href="#my-tile-item" class="tile-list-item" />
+      </use>
     </use>
-  </use>
   </svg>
 </svg>

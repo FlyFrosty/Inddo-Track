@@ -11,12 +11,12 @@
 }
 
 #lapCount {
-  font-size: 120;
+  font-size: 110;
   font-family: System-Bold;
   text-length: 32;
   text-anchor: end;
-  x: 73%;
-  y: 50%;
+  x: 80%;
+  y: 55%;
   fill: white;
 }
 
@@ -75,7 +75,7 @@
   font-family: System-Bold;
   text-length: 32;
   text-anchor: middle;
-  x: 50%;
+  x: 75%;
   y: 40%;
   fill: white;
 }
@@ -95,7 +95,7 @@
   font-family: System-Bold;
   text-length: 32;
   text-anchor: middle;
-  x: 50%+2;
+  x: 75%+2;
   y: 40%+2;
   fill: white;
 }
