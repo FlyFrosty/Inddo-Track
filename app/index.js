@@ -33,7 +33,7 @@ let lapMrkr = document.getElementById("lapMrkr");
 let lapMrkrShaddow = document.getElementById("lapMrkrShaddow");
 let timeMrkrShaddow = document.getElementById("timeMrkrShaddow");
 
-let VTList = document.getElementById("list");
+let VTList = document.getElementById("my-list");
 
 let interval;
 let running = "Start";
@@ -46,6 +46,8 @@ let pauseTot = 0;  //Total pause time per run
 
 var history = new Array();
 let actLapTime = new Array();
+
+let NUM_ELEMS = 100;
 
 lapCount.text = "0";
 lapTime.text = "00:00";
@@ -84,22 +86,17 @@ function minSec(numTime) {
 //Resets the watch if stopped to new
 function finish() {
       
-//Clear the screen
-  mainView.style.display = "none";
-  summary.style.display = "inline";
-  
   lapMrkr.text = "Laps";
   timeMrkr.text = "Time";
   lapMrkrShaddow.text = "Laps";
   timeMrkrShaddow.text = "Time"; 
 
   let myDiff1 = history[lapCounter] - history[0] - pauseTot;
-  console.log(`myDiff1 ${myDiff1}`);
-  
   totTime.text = minSec(myDiff1);
   totTimeShaddow.text = minSec(myDiff1);
   totLaps.text = lapCounter;
   totLapsShaddow.text = lapCounter; 
+  
   
   //Zero out time's of unused slots less than ten for the final screen  
   if (lapCounter < 100) {
@@ -107,32 +104,35 @@ function finish() {
       actLapTime[i] = 0;
     }
   }  
-   
+  
   //Scroll Display
-  VTList.delegate =
-  {
-    getTileInfo: function(index)
-    {   
-      let myDiff3 = minSec(actLapTime[index]);
+  VTList.delegate = {
+    getTileInfo: function(index) {   
       return {
-        type: "pool", 
-        value: `Lap ${index + 1}   ${myDiff3}`,
-        index: index };
+        type: "my-pool", 
+        value: minSec(actLapTime[index]),
+        index: index 
+      };
     },  
-    configureTile: function(tile, info)
-    {
-      tile.getElementById("text").text = info.value;
+    configureTile: function(tile, info) {
+      if (info.type == "my-pool") {
+        tile.getElementById("text").text = `${info.index + 1}  ${info.value}`;
+        console.log(`config loop ${info.index + 1}  ${info.value}`);
+      }
     }
-  };
-
+  }
+  
   // VTList.length must be set AFTER VTList.delegate
-  VTList.length = 100; 
-}
+  VTList.length = NUM_ELEMS; 
+ 
+
+};
 
 // Top Right button is pressed
 btnTr.onactivate = function(evt) {
   //Check to see if the start time has been recorded
   if (running === "Start") {
+    me.appTimeoutEnabled = false;
     console.log("TR Start");
     history[0] = Date.now();
     actLapTime[0] = 0;
@@ -205,7 +205,13 @@ btnBr.onactivate = function(evt) {
       //this ends the running
       console.log("BR running is Paused");
       clearInterval(interval);
+      
+      //Clear the screen
+      mainView.style.display = "none";
+      summary.style.display = "inline";
+      
       finish();
+ 
     } else if (running === "Running") {
       console.log("BR running is else");
       //Reset the lap pause time and start a new lap
@@ -228,12 +234,16 @@ btnBr.onactivate = function(evt) {
 };
 
 
-/*
+
 lapCount.onclick = function(e) {
-  if (running !=="Start") {console.log("lapCount touched")};
+  if (running !=="Start") {
+    console.log("lapCount touched");
+
+  };
 }
 
 lapTime.onclick = function(e) {
-  if (running !=="Start") {btnBr()};
+  if (running !=="Start") {
+    console.log("lapTime touched");
+  };
 }
-*/
