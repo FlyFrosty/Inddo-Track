@@ -1,6 +1,6 @@
 <svg>
   <svg id="mainView" display = "inline">
-    <svg id="myLaps" fill = "white" display = "inline">
+    <svg id="myLaps" fill = "white" display = "inline" >
       <text id="lapCount" fill="inherit" pointer-events="visible" display = "inherit"/>
       <text id="lapTime" fill="inherit" pointer-events="visible" display = "inherit"/>
     </svg>

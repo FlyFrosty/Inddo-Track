@@ -128,6 +128,73 @@ function finish() {
 
 };
 
+//Controls what happens when a new lap is marked
+function newLap() {
+  if (running !== "Start") {
+    console.log("BR not Start");
+    if (running === "Started") {
+      console.log("BR running is Started");
+      //advance the lap counter
+      lapCounter = lapCounter + 1;
+      lapCount.text = lapCounter;
+      //Store then shift the top lap down one
+      history[lapCounter] = Date.now();
+      actLapTime[lapCounter - 1] = history[lapCounter] - history[lapCounter - 1] - pauseLapSum;
+      console.log(`BR Started actLapTime ${actLapTime[lapCounter]}`);
+      console.log(`BR Started lap number ${lapCounter}`);  
+      botLap.text = minSec(actLapTime[lapCounter - 1]);
+      //Reset the top lap to 0
+      topLap.text = "00:00";
+      pauseLapSum = 0;
+    } else if (running === "Paused"){
+      //this ends the running
+      console.log("BR running is Paused");
+      clearInterval(interval);
+      
+      //Clear the screen
+      mainView.style.display = "none";
+      summary.style.display = "inline";
+      
+      finish();
+ 
+    } else if (running === "Running") {
+      console.log("BR running is else");
+      //Reset the lap pause time and start a new lap
+      //advance the lap counter
+      lapCounter = lapCounter + 1;
+      lapCount.text = lapCounter;
+      //Store then shift the top lap down one
+      history[lapCounter] = Date.now();
+      actLapTime[lapCounter - 1] = history[lapCounter] - history[lapCounter - 1] - pauseLapSum;
+      console.log(`BR else actLapTime ${actLapTime[lapCounter - 1]}`);
+      console.log(`BR else lap number ${lapCounter}`);  
+      botLap.text = minSec(actLapTime[lapCounter - 1]);
+      //Reset the top lap to 0
+      pauseLapSum = 0;
+      topLap.text = "00:00";      
+    };
+  } else {
+    console.log("Not yet started");
+  };
+  
+}
+
+//Bottom Right Button is pressed
+btnBr.onactivate = function(evt) {
+  newLap();
+};
+
+
+// Treat the time indicator as a lap counter button
+lapTime.onclick = function(e) {
+  newLap();
+}
+
+//Treat the lap indicator as a lap counter button
+lapCount.onclick = function(e) {
+  newLap();
+}
+
 // Top Right button is pressed
 btnTr.onactivate = function(evt) {
   //Check to see if the start time has been recorded
@@ -183,67 +250,3 @@ btnTr.onactivate = function(evt) {
   };
 };
 
-//Bottom Right Button is pressed
-btnBr.onactivate = function(evt) {
-  if (running !== "Start") {
-    console.log("BR not Start");
-    if (running === "Started") {
-      console.log("BR running is Started");
-      //advance the lap counter
-      lapCounter = lapCounter + 1;
-      lapCount.text = lapCounter;
-      //Store then shift the top lap down one
-      history[lapCounter] = Date.now();
-      actLapTime[lapCounter - 1] = history[lapCounter] - history[lapCounter - 1] - pauseLapSum;
-      console.log(`BR Started actLapTime ${actLapTime[lapCounter]}`);
-      console.log(`BR Started lap number ${lapCounter}`);  
-      botLap.text = minSec(actLapTime[lapCounter - 1]);
-      //Reset the top lap to 0
-      topLap.text = "00:00";
-      pauseLapSum = 0;
-    } else if (running === "Paused"){
-      //this ends the running
-      console.log("BR running is Paused");
-      clearInterval(interval);
-      
-      //Clear the screen
-      mainView.style.display = "none";
-      summary.style.display = "inline";
-      
-      finish();
- 
-    } else if (running === "Running") {
-      console.log("BR running is else");
-      //Reset the lap pause time and start a new lap
-      //advance the lap counter
-      lapCounter = lapCounter + 1;
-      lapCount.text = lapCounter;
-      //Store then shift the top lap down one
-      history[lapCounter] = Date.now();
-      actLapTime[lapCounter - 1] = history[lapCounter] - history[lapCounter - 1] - pauseLapSum;
-      console.log(`BR else actLapTime ${actLapTime[lapCounter - 1]}`);
-      console.log(`BR else lap number ${lapCounter}`);  
-      botLap.text = minSec(actLapTime[lapCounter - 1]);
-      //Reset the top lap to 0
-      pauseLapSum = 0;
-      topLap.text = "00:00";      
-    };
-  } else {
-    console.log("Not yet started");
-  };
-};
-
-
-
-lapCount.onclick = function(e) {
-  if (running !=="Start") {
-    console.log("lapCount touched");
-
-  };
-}
-
-lapTime.onclick = function(e) {
-  if (running !=="Start") {
-    console.log("lapTime touched");
-  };
-}
