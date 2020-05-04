@@ -105,6 +105,15 @@ function finish() {
     }
   }  
   
+  //Create new array to ensure first la is shown
+  let endLapTime = new Array(); 
+  var i;
+  for (i=0; i < 100; i++) {
+    endLapTime[i+1] = actLapTime[i];
+  }
+  actLapTime = endLapTime;
+  actLapTime[0] = actLapTime[1];
+  
   //Scroll Display
   VTList.delegate = {
     getTileInfo: function(index) {   
@@ -116,8 +125,8 @@ function finish() {
     },  
     configureTile: function(tile, info) {
       if (info.type == "my-pool") {
-        tile.getElementById("text").text = `${info.index + 1}  ${info.value}`;
-        console.log(`config loop ${info.index + 1}  ${info.value}`);
+        tile.getElementById("text").text = `${info.index}  ${info.value}`;
+        console.log(`config loop ${info.index}  ${info.value}`);
       }
     }
   }
@@ -125,7 +134,6 @@ function finish() {
   // VTList.length must be set AFTER VTList.delegate
   VTList.length = NUM_ELEMS; 
  
-
 };
 
 //Controls what happens when a new lap is marked
